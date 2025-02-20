@@ -1,21 +1,22 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from transformers import pipeline
-from fastapi.middleware.cors import CORSMiddleware  # Import CORS middleware
+
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Replace with your frontend URL if needed, e.g., ["http://localhost:5173"]
+    allow_origins=["*"],  
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods (GET, POST, OPTIONS, etc.)
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],  
+    allow_headers=["*"],  
 )
 
-# Load model
-summarizer = pipeline("summarization")
+# Load a small T5 model for summarization
+summarizer = pipeline("summarization", model="t5-small")
 
 class TextRequest(BaseModel):
     text: str
